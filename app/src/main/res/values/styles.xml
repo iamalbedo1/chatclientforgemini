@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App-wide theme: jet-black splash & system bars -->
+    <style name="Theme.ChatClientForGemini" parent="android:Theme.DeviceDefault.NoActionBar">
+        <!-- removed the WRONG attribute that caused the error -->
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+    </style>
+
+    <!-- One-frame starting theme for MainActivity -->
+    <style name="MainActivityTheme.Starting" parent="Theme.ChatClientForGemini"/>
+</resources>

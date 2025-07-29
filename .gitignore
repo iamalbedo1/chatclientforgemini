@@ -1,0 +1,19 @@
+# Android Studio IDE files
+.gradle
+.idea/
+*.iml
+
+# Local machine properties
+local.properties
+
+# Build files and outputs
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# macOS files
+.DS_Store
+
+# Log files
+*.log
