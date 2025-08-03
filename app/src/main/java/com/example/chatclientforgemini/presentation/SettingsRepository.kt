@@ -24,4 +24,12 @@ class SettingsRepository(context: Context) {
     var apiKey: String?
         get() = prefs.getString("api_key", null)
         set(value) = prefs.edit { putString("api_key", value) }
+
+    var systemPrompt: String?
+        get() = prefs.getString("system_prompt", null)
+        set(value) = prefs.edit { putString("system_prompt", value) }
+
+    fun clearSystemPrompt() {
+        prefs.edit { remove("system_prompt") }
+    }
 }

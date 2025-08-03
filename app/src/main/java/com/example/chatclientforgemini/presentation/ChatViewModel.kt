@@ -35,6 +35,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val _hapticEvent = MutableSharedFlow<Unit>()
     val hapticEvent = _hapticEvent.asSharedFlow()
 
+    private val _currentSystemPrompt = MutableStateFlow(settingsRepository.systemPrompt ?: defaultSystemPromptText)
+    val currentSystemPrompt = _currentSystemPrompt.asStateFlow()
+
     init {
         initializeChat()
         loadHistory()
@@ -70,16 +73,15 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         initializeChat()
     }
 
-    val currentSystemPrompt: String
-        get() = settingsRepository.systemPrompt ?: defaultSystemPromptText
-
     fun saveSystemPrompt(prompt: String) {
         settingsRepository.systemPrompt = prompt
+        _currentSystemPrompt.value = prompt
         clearChat()
     }
 
     fun resetSystemPrompt() {
         settingsRepository.clearSystemPrompt()
+        _currentSystemPrompt.value = defaultSystemPromptText
         clearChat()
     }
 

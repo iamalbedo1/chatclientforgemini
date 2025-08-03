@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
                 val uiState by viewModel.uiState.collectAsState()
                 val historyState by viewModel.historyState.collectAsState()
                 val hapticEvent by viewModel.hapticEvent.collectAsState(initial = null)
+                val currentSystemPrompt by viewModel.currentSystemPrompt.collectAsState()
                 val vibrator = getSystemService(Vibrator::class.java)
 
                 LaunchedEffect(hapticEvent) {
@@ -77,10 +78,16 @@ class MainActivity : ComponentActivity() {
                                 onSend = { viewModel.sendMessage(it) }
                             )
                             2 -> SettingsScreen(
-                                onSave = { apiKey ->
+                                onSaveApiKey = { apiKey ->
                                     viewModel.saveApiKey(apiKey)
-                                    coroutineScope.launch { pagerState.animateScrollToPage(1) }
-                                }
+                                },
+                                onSaveSystemPrompt = { systemPrompt ->
+                                    viewModel.saveSystemPrompt(systemPrompt)
+                                },
+                                onResetSystemPrompt = {
+                                    viewModel.resetSystemPrompt()
+                                },
+                                currentSystemPrompt = currentSystemPrompt
                             )
                         }
                     }
