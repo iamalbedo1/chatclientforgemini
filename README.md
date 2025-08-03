@@ -1,8 +1,13 @@
 # Gemini Client for Wear OS
 
+![GitHub Stars](https://img.shields.io/github/stars/iamalbedo1/chatclientforgemini?style=for-the-badge)
+![GitHub Forks](https://img.shields.io/github/forks/iamalbedo1/chatclientforgemini?style=for-the-badge)
+![GitHub Contributors](https://img.shields.io/github/contributors/iamalbedo1/chatclientforgemini?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/iamalbedo1/chatclientforgemini?style=for-the-badge)
 ![GitHub Releases](https://img.shields.io/github/v/release/iamalbedo1/chatclientforgemini?style=for-the-badge)
 ![GitHub All Releases](https://img.shields.io/github/downloads/iamalbedo1/chatclientforgemini/total?style=for-the-badge)
 ![GitHub License](https://img.shields.io/github/license/iamalbedo1/chatclientforgemini?style=for-the-badge)
+
 
 An unofficial, open-source client for the Google Gemini API, designed and built for Wear OS devices. This application allows you to interact with Google's powerful AI models directly from your smartwatch.
 
@@ -14,7 +19,7 @@ An unofficial, open-source client for the Google Gemini API, designed and built 
 
 ## Features
 
-* **Direct Gemini API Interaction**: Send prompts and receive responses from the Gemini Pro model.
+* **Direct Gemini API Interaction**: Send prompts and receive responses from the Gemini 2.5 Flash.
 * **Conversation History**: Your chats are saved on-device for later viewing.
 * **Native Wear OS Interface**: A clean and user-friendly interface built with Compose for Wear OS.
 * **Rotary Input**: Smoothly scroll through conversations using your watch's rotating side-button or bezel.
@@ -52,3 +57,12 @@ If you wish to build the project yourself, follow these steps:
 3.  Let Gradle sync and download the required dependencies.
 4.  Build the project (`Build` > `Make Project`).
 5.  You can run the app on an emulator or a physical Wear OS device.
+
+## Contributing
+
+Contributions are welcome! If you have an idea for a new feature, find a bug, or want to improve the code, please feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+
