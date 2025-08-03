@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
                 val historyState by viewModel.historyState.collectAsState()
                 val hapticEvent by viewModel.hapticEvent.collectAsState(initial = null)
                 val currentSystemPrompt by viewModel.currentSystemPrompt.collectAsState()
+                val currentModel by viewModel.currentModel.collectAsState()
                 val vibrator = getSystemService(Vibrator::class.java)
 
                 LaunchedEffect(hapticEvent) {
@@ -84,10 +85,14 @@ class MainActivity : ComponentActivity() {
                                 onSaveSystemPrompt = { systemPrompt ->
                                     viewModel.saveSystemPrompt(systemPrompt)
                                 },
+                                onSaveModel = { model ->
+                                    viewModel.saveModel(model)
+                                },
                                 onResetSystemPrompt = {
                                     viewModel.resetSystemPrompt()
                                 },
-                                currentSystemPrompt = currentSystemPrompt
+                                currentSystemPrompt = currentSystemPrompt,
+                                currentModel = currentModel
                             )
                         }
                     }

@@ -6,6 +6,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -14,7 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -52,10 +56,13 @@ fun AnimatedButton(
 fun SettingsScreen(
     onSaveApiKey: (String) -> Unit,
     onSaveSystemPrompt: (String) -> Unit,
+    onSaveModel: (String) -> Unit,
     onResetSystemPrompt: () -> Unit,
-    currentSystemPrompt: String
+    currentSystemPrompt: String,
+    currentModel: String
 ) {
     val (showSystemPrompt, setShowSystemPrompt) = remember { mutableStateOf(false) }
+    val (showModelSelection, setShowModelSelection) = remember { mutableStateOf(false) }
 
     val apiKeyLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -122,6 +129,17 @@ fun SettingsScreen(
             }
             item {
                 AnimatedButton(
+                    onClick = { setShowModelSelection(true) },
+                    modifier = Modifier.fillMaxWidth(0.8f)
+                ) {
+                    Text("Choose model")
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            item {
+                AnimatedButton(
                     onClick = {
                         val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
                         val remoteInput = RemoteInput.Builder("system_prompt")
@@ -163,10 +181,70 @@ fun SettingsScreen(
                 }
                 item {
                     Text(
-                        text = currentSystemPrompt,
+                        text = "Current prompt: $currentSystemPrompt",
                         style = MaterialTheme.typography.body2,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            item {
+                Text(
+                    text = "Current model: $currentModel",
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+        }
+        if (showModelSelection) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+                    .pointerInput(Unit) {
+                        detectHorizontalDragGestures { _, dragAmount ->
+                            if (dragAmount > 50) { // Swipe right to dismiss
+                                setShowModelSelection(false)
+                            }
+                        }
+                    }
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    AnimatedButton(
+                        onClick = {
+                            onSaveModel("gemini-2.5-flash-lite")
+                            setShowModelSelection(false)
+                        },
+                        modifier = Modifier.fillMaxWidth(0.8f).height(48.dp)
+                    ) {
+                        Text("gemini-2.5-flash-lite")
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    AnimatedButton(
+                        onClick = {
+                            onSaveModel("gemini-2.5-flash")
+                            setShowModelSelection(false)
+                        },
+                        modifier = Modifier.fillMaxWidth(0.8f).height(48.dp)
+                    ) {
+                        Text("gemini-2.5-flash")
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    AnimatedButton(
+                        onClick = {
+                            onSaveModel("gemini-2.5-pro")
+                            setShowModelSelection(false)
+                        },
+                        modifier = Modifier.fillMaxWidth(0.8f).height(48.dp)
+                    ) {
+                        Text("gemini-2.5-pro")
+                    }
                 }
             }
         }

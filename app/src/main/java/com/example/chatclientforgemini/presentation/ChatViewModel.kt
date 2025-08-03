@@ -38,6 +38,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val _currentSystemPrompt = MutableStateFlow(settingsRepository.systemPrompt ?: defaultSystemPromptText)
     val currentSystemPrompt = _currentSystemPrompt.asStateFlow()
 
+    private val _currentModel = MutableStateFlow(settingsRepository.model ?: "gemini-2.5-flash")
+    val currentModel = _currentModel.asStateFlow()
+
     init {
         initializeChat()
         loadHistory()
@@ -57,7 +60,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             }
         } else {
             generativeModel = GenerativeModel(
-                modelName = "gemini-1.5-flash",
+                modelName = settingsRepository.model ?: "gemini-2.5-flash",
                 apiKey = apiKey
             )
             val systemPrompt = content("user") {
@@ -76,6 +79,12 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     fun saveSystemPrompt(prompt: String) {
         settingsRepository.systemPrompt = prompt
         _currentSystemPrompt.value = prompt
+        clearChat()
+    }
+
+    fun saveModel(model: String) {
+        settingsRepository.model = model
+        _currentModel.value = model
         clearChat()
     }
 
@@ -175,7 +184,11 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         try {
             val firstUserMessage = conversation.messages.firstOrNull { it.author == Author.USER }?.text ?: return
             val titlePrompt = "Summarize the following text in 3 words or less, to be used as a title: \"$firstUserMessage\""
-            val titleResponse = generativeModel.generateContent(titlePrompt).text?.trim()
+            val titleModel = GenerativeModel(
+                modelName = "gemini-2.5-flash-lite",
+                apiKey = settingsRepository.apiKey ?: ""
+            )
+            val titleResponse = titleModel.generateContent(titlePrompt).text?.trim()
             if (!titleResponse.isNullOrBlank()) {
                 conversation.title = titleResponse
                 // Re-save the conversation with the new title

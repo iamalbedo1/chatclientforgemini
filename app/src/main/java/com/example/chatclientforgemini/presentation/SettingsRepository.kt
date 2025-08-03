@@ -28,7 +28,9 @@ class SettingsRepository(context: Context) {
     var systemPrompt: String?
         get() = prefs.getString("system_prompt", null)
         set(value) = prefs.edit { putString("system_prompt", value) }
-
+    var model: String?
+        get() = prefs.getString("model", "gemini-2.5-flash")
+        set(value) = prefs.edit { putString("model", value) }
     fun clearSystemPrompt() {
         prefs.edit { remove("system_prompt") }
     }
