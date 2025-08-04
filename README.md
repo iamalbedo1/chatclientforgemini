@@ -62,7 +62,3 @@ If you wish to build the project yourself, follow these steps:
 
 Contributions are welcome! If you have an idea for a new feature, find a bug, or want to improve the code, please feel free to open an issue or submit a pull request.
 
-## License
-
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
-
